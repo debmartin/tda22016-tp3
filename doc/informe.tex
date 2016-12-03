@@ -1,0 +1,86 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc} % Permite escribir directamente áéíóúñ
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
+\usepackage{pdfpages}
+\usepackage{multirow}
+\usepackage[margin=0.9in]{geometry}
+
+\title{ \textbf{ 7529. Teoría de Algoritmos I\\
+Trabajo Práctico 2}}
+
+\author{ Ferreyra, Oscar, \textit{Padrón Nro. 89563} \\
+\texttt{ fferreyra38@gmail.com } \\[2.5ex]
+Martin, Débora, \textit{Padrón Nro. 90934} \\
+\texttt{ demartin@fi.uba.ar } \\[2.5ex]
+Eisner, Ariel, \textit{Padrón Nro. 90697} \\
+\texttt{ aeeisnerg@gmail.com } \\[2.5ex]
+\normalsize{2do. Cuatrimestre de 2016} \\
+}
+
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty} % quita el nro en la primer pagina
+\setcounter{page}{0}
+\newpage
+\tableofcontents
+
+\newpage
+
+\section{Clases de complejidad}
+
+
+
+
+
+
+
+\section{Algoritmos de aproximación}
+
+
+\subsection{El problema de la mochila}
+
+
+
+
+
+
+
+
+
+
+\subsection{El problema del viajante de comercio}
+
+Para implementar la solución aproximada a este problema se utilizó el algoritmo de Prim para calcular el árbol de tendido mínimo. La complejidad de dicho algoritmo depende de las operaciones de una cola de prioridad que contiene los vertices, de las iteraciones que se realizan sobre todas las aristas de cada vértice. Se tomará $|V|$ como la cantidad de vértices del grafo y $|A|$ como la cantidad de aristas. 
+Las operaciones más importantes de la cola de prioridad son $O(\log{|V|})$ cada una, excepto el contains que es $O(|V|)$.
+Por otro lado el ciclo principal es $O(|V|^2 *|A|)$ porque recorre para cada vertice, sus aristas, y verifica si su arista adyacente está en la cola de prioridad. El mencionado sería el peor caso, pero a medida que va avanzando la ejecución, la cola se va vaciando y el contains pasa a ser insignificante. Por último, se agregan todos los vertices y las aristas pertenecientes al árbol en un nuevo grafo. Esta operación es $O(|A| \log{|A|})$, en el peor caso que sería que todas las aristas del grafo original debieran ser agregadas al nuevo grafo. Pero en la mayoría de los casos será mucho menor y dependerá de la cantidad de aristas del árbol.
+
+Además del algoritmo de Prim, luego se busca el preorder del árbol de tendido mínimo. Este recorre todos los vértices del grafo por lo que es $O(|V|)$.
+
+Los tiempos de ejecución fueron llamativamente inferiores a los obtenidos por programación dinámica, aunque las soluciones obtenidas no resultaron siempre iguales a las anteriores. A continuación se muestran dichos tiempos de ejecución. Es de notar que en esta ocasión sí fue posible realizar la corrida para grafos con mayor cantidad de vertices.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Cantidad de ciudades	& Tiempo de ejecución (segundos)\\\hline
+15						& $4.86 * 10^{-3}$\\\hline
+17						& $5.74 * 10^{-3}$\\\hline
+19						& $8.82 * 10^{-3}$\\\hline
+21						& $6.35 * 10^{-3}$\\\hline
+23						& $6.15 * 10^{-3}$\\\hline
+48						& $13.4 * 10^{-3}$\\\hline
+\end{tabular}
+\caption{Tiempo en función de la cantidad de ciudades para la aproximación por el árbol de tendido mínimo}
+\label{tab:held}
+\end{table}
+
+
+\end{document}
