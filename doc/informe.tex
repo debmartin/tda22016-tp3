@@ -37,9 +37,51 @@ Eisner, Ariel, \textit{Padrón Nro. 90697} \\
 \section{Clases de complejidad}
 
 
+\subsection{Ciclos negativos en grafo Hamiltoniano}
+Para la resolución de este problema se propone la utilización del Algoritmo de Floyd Warshall para encontrar el camino mínimo entre todos los vértices del grafo. Sobre la matriz resultante se analizan los números de la diagonal de la matriz de caminos. En caso de ser negativos, sabemos que pertenece a un ciclo negativo. Este algoritmo corre en tiempo O(V3), siendo V la cantidad de vértices del grafo.
+
+\bigskip
+
+\textcolor[rgb]{0.4,0.4,0.4}{}\textcolor{black}{FloydWarshall() \{ }
+
+\textcolor{black}{\ \ \ \ }Armar la matriz de adyacencia F
+
+\textcolor{black}{\ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( k from 1 to n )}
+
+\textcolor{black}{\ \ \ \ \ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( i from 1 to n )}
+
+\textcolor{black}{\ \ \ \ \ \ \ \ \ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( j from 1 to n )}
+
+\textcolor{black}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }F[i,j]=min(F[i,j], F[i,k] + F[k,j])
+
+\textcolor{black}{\ \ \ \ \ \ \ \ \ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for j}}
+
+\textcolor{black}{\ \ \ \ \ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for i}}
+
+\textcolor{black}{\ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for k}}
+
+\bigskip
+
+\textcolor{black}{\ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( i from 1 to n )}
+
+\textcolor{black}{\ \ \ \ \ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{if}}\textcolor{black}{ ( F[i,i] < 0 then )}
+	
+\textcolor{black}{\ \ \ \ \ \ \ \ \ \ \ \ }print “Existe ciclo negativo”
+		
+\textcolor{black}{\ \ \ \ \ \ \ \ \ \ \ \ }break
+		
+\textcolor{black}{\ \ \ \ \ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end if}}
+	
+\textcolor{black}{\ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for i}}
+
+\}
 
 
+\subsection{Ciclos nulos en grafo Hamiltoniano}
 
+\subsection{Tareas con ganancia mayor a un k dado}
+
+\subsection{Tareas con ganancia igual a un k dado}
 
 
 \section{Algoritmos de aproximación}
