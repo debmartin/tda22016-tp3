@@ -5,28 +5,20 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Mochila {
+//TODO agregar mejoras...
+public class MochilaViejo {
 
     private BufferedReader lectorArchivo;
 
-    private int capacidadMochila;
     private int cantItems;
+
+    private int capacidadMochila;
+
     private int[] valores;
     private int[] pesos;
     private int[][] matrizMochila;
 
-    public int valorResultante;
-    public int pesoResultante;
-
-    public Mochila(int cantItems, int capacidadMochila, int[] valores, int[] pesos) {
-        this.cantItems = cantItems;
-        this.capacidadMochila = capacidadMochila;
-        this.valores = valores;
-        this.pesos = pesos;
-        this.valorResultante = cargarMochila();
-    }
-
-    public Mochila(String rutaArchivo) {
+    public MochilaViejo(String rutaArchivo) {
         try {
             lectorArchivo = new BufferedReader(new FileReader(rutaArchivo));
         } catch (FileNotFoundException e) {
@@ -34,20 +26,22 @@ public class Mochila {
             e.printStackTrace();
         }
         cantItems = 0;
+
         capacidadMochila = 0;
-
-        cargarDatosDesdeArchivo();
-        valorResultante = cargarMochila();
-
     }
 
-    public void cargarDatosDesdeArchivo() {
+    public void cargarDatos() {
         try {
             lectorArchivo.readLine();//salteo titulo del archivo
+
             cantItems = Integer.parseInt(lectorArchivo.readLine().split(" ")[1]);
+
             capacidadMochila = Integer.parseInt(lectorArchivo.readLine().split(" ")[1]);
+
             System.out.println("Optimo Pisinger: " + lectorArchivo.readLine()); //salteo optimo
+
             lectorArchivo.readLine(); //salteo tiempo
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,44 +62,23 @@ public class Mochila {
 
             valores[i] = Integer.parseInt(linea[1]);
             pesos[i] = Integer.parseInt(linea[2]);
-        }
 
+        }		// TODO Auto-generated method stub
     }
 
-    private int cargarMochila() {
-        int sumaTotal = 0;
-
-        for (int i = 0; i < this.cantItems; i++) {
-            sumaTotal += this.valores[i];
-        }
-
-        matrizMochila = new int[this.cantItems + 1][sumaTotal + 1];
-        for (int i = 0; i <= this.cantItems; i++) {
-            matrizMochila[i][0] = 0;
-        }
-
-        int sumaParcial = 0;
-        for (int i = 1; i <= this.cantItems; i++) {
-            sumaParcial += this.valores[i - 1];
-            for (int v = 1; v <= sumaTotal; v++) {
-                if (v > sumaParcial - this.valores[i - 1]) {
-                    matrizMochila[i][v] = this.pesos[i - 1] + matrizMochila[i - 1][v];
+    public void cargarMochila() {
+        for (int i = 0; i <= cantItems; i++) {
+            for (int j = 0; j <= capacidadMochila; j++) {
+                //se pone en cero para tenga con q comparar en la segunda iteracion
+                if (i == 0 || j == 0) {
+                    matrizMochila[i][j] = 0;
+                } else if (j < pesos[i]) {
+                    matrizMochila[i][j] = matrizMochila[i - 1][j];
                 } else {
-                    matrizMochila[i][v] = Math.min(matrizMochila[i - 1][v], this.pesos[i - 1] + matrizMochila[i - 1][Math.max(0, v - this.valores[i - 1])]);
+                    matrizMochila[i][j] = Math.max(matrizMochila[i - 1][j], matrizMochila[i - 1][j - pesos[i]] + valores[i]);
                 }
             }
         }
-
-        int res = 0;
-        int v = 1;
-
-        while (v <= sumaTotal && matrizMochila[this.cantItems][v] <= this.capacidadMochila) {
-            this.pesoResultante = matrizMochila[this.cantItems][v];
-            res = v;
-            v++;
-
-        }
-        return res;
     }
 
     public void mostrarDatos() {
@@ -140,5 +113,4 @@ public class Mochila {
 
         System.out.println("\nItems en Total: " + itemsCargados + " valorTotal: " + valorAcumulado + "  pesoTotal: " + pesoAcumulado);
     }
-
 }
