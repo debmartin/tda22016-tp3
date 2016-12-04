@@ -37,47 +37,77 @@ Eisner, Ariel, \textit{Padrón Nro. 90697} \\
 \section{Clases de complejidad}
 
 
-\subsection{Ciclos negativos en grafo Hamiltoniano}
-Para la resolución de este problema se propone la utilización del Algoritmo de Floyd Warshall para encontrar el camino mínimo entre todos los vértices del grafo. Sobre la matriz resultante se analizan los números de la diagonal de la matriz de caminos. En caso de ser negativos, sabemos que pertenece a un ciclo negativo. Este algoritmo corre en tiempo O(V3), siendo V la cantidad de vértices del grafo.
+\subsection{Ciclos con peso negativo en un grafo Hamiltoniano}
+Para la resolución de este problema se propone la utilización del Algoritmo de Floyd Warshall para encontrar el camino mínimo entre todos los vértices del grafo. Sobre la matriz resultante se analizan los números de la diagonal de la matriz de caminos. En caso de ser negativos, sabemos que pertenece a un ciclo negativo. Este algoritmo corre en tiempo \( O( V^{3}) \), siendo \( V \) la cantidad de vértices del grafo.
 
 \bigskip
 
 \textcolor[rgb]{0.4,0.4,0.4}{}\textcolor{black}{FloydWarshall() \{ }
 
-\textcolor{black}{\ \ \ \ }Armar la matriz de adyacencia F
+\quad Armar la matriz de adyacencia F
 
-\textcolor{black}{\ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( k from 1 to n )}
+\quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( k from 1 to n )}
 
-\textcolor{black}{\ \ \ \ \ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( i from 1 to n )}
+\quad \quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( i from 1 to n )}
 
-\textcolor{black}{\ \ \ \ \ \ \ \ \ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( j from 1 to n )}
+\quad \quad \quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( j from 1 to n )}
 
-\textcolor{black}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }F[i,j]=min(F[i,j], F[i,k] + F[k,j])
+\quad \quad \quad \quad F[i,j]=min(F[i,j], F[i,k] + F[k,j])
 
-\textcolor{black}{\ \ \ \ \ \ \ \ \ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for j}}
+\quad \quad \quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for j}}
 
-\textcolor{black}{\ \ \ \ \ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for i}}
+\quad \quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for i}}
 
-\textcolor{black}{\ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for k}}
+\quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for k}}
 
 \bigskip
 
-\textcolor{black}{\ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( i from 1 to n )}
+\quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( i from 1 to n )}
 
-\textcolor{black}{\ \ \ \ \ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{if}}\textcolor{black}{ ( F[i,i] < 0 then )}
+\quad \quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{if}}\textcolor{black}{ ( F[i,i] < 0 then )}
 	
-\textcolor{black}{\ \ \ \ \ \ \ \ \ \ \ \ }print “Existe ciclo negativo”
+\quad \quad \quad print “Ciclo negativo”
 		
-\textcolor{black}{\ \ \ \ \ \ \ \ \ \ \ \ }break
+\quad \quad \quad break
 		
-\textcolor{black}{\ \ \ \ \ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end if}}
+\quad \quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end if}}
 	
-\textcolor{black}{\ \ \ \ }\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for i}}
+\quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for i}}
 
 \}
 
 
-\subsection{Ciclos nulos en grafo Hamiltoniano}
+\subsection{Ciclos de peso nulo en un grafo Hamiltoniano}
+
+Este problema es NP-Completo.
+ 
+Primero, dado un ciclo simple en el grafo G, podemos determinar si la suma de los pesos de sus vértices en tiempo polinomial, luego el problema de encontrar un ciclo de peso 0 es NP.
+
+Luego, reducimos el problema de la suma de subconjuntos a este problema. Este problema es: dado un conjunto de enteros, ¿existe algún subconjunto cuya suma sea exactamente cero? A continuación describimos el algoritmo de resolución de dicho problema:
+
+\bigskip
+
+Consideramos un conjunto de enteros \( S = \{ a_{1}, . . . , a_{n} \}  \). Construimos un digrafo ponderado G con \( 2n \) vértices, para el cual cada elemento \( a_{i} \) corresponde con dos vértices \( v_{i} \) y \( u_{i} \)
+
+\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for each }}\( v_{i} \)
+
+\quad agregar una arista de \( v_{i} \) en \( u_{i} \) con peso \( a_{i} \) y agregar aristas de cada vértice \( v_{j} \) en él con peso 0.
+
+\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for each}} \( u_{i} \)
+
+\quad agregar aristas de éste vértice \( u_{i} \) a cada uno de los \( v_{j} \) con peso 0. 
+
+\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{if}} (encontramos un ciclo de peso 0 en G) \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{then}}
+
+\quad todos los pesos desde \( v_{j} \) hasta \( u_{j} \) a lo largo del ciclo deben ser cero.
+		
+\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{if}} (obtenemos un subconjunto \( S0 \subseteq S \) cuya sumatoria da 0)
+
+\quad construimos un ciclo tomando todas las aristas \( (v_{j}, u_{j}) \) correspondientes al elemento en S0 y conectamos sus aristas a través de las aristas de ppeso cero, y finalmente obtenemos un ciclo de peso 0.
+
+\bigskip
+
+Por lo tanto, el problema es al menos tan difícil como el de suma de subconjuntos. Dado que éste es un problema NP-Completo, el problema de los ciclos de peso 0 también lo es.
 
 \subsection{Tareas con ganancia mayor a un k dado}
 
@@ -88,14 +118,6 @@ Para la resolución de este problema se propone la utilización del Algoritmo de
 
 
 \subsection{El problema de la mochila}
-
-
-
-
-
-
-
-
 
 
 \subsection{El problema del viajante de comercio}
