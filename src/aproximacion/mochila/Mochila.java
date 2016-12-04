@@ -28,7 +28,8 @@ public class Mochila {
 
     public Mochila(String rutaArchivo) {
         try {
-            lectorArchivo = new BufferedReader(new FileReader(rutaArchivo));
+            FileReader fr = new FileReader(rutaArchivo);
+            lectorArchivo = new BufferedReader(fr);
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -72,7 +73,7 @@ public class Mochila {
 
     }
 
-    private int cargarMochila() {
+    public int cargarMochila() {
         int sumaTotal = 0;
 
         for (int i = 0; i < this.cantItems; i++) {
@@ -87,11 +88,11 @@ public class Mochila {
         int sumaParcial = 0;
         for (int i = 1; i <= this.cantItems; i++) {
             sumaParcial += this.valores[i - 1];
-            for (int v = 1; v <= sumaTotal; v++) {
-                if (v > sumaParcial - this.valores[i - 1]) {
-                    matrizMochila[i][v] = this.pesos[i - 1] + matrizMochila[i - 1][v];
+            for (int j = 1; j <= sumaTotal; j++) {
+                if (j > sumaParcial - this.valores[i - 1]) {
+                    matrizMochila[i][j] = this.pesos[i - 1] + matrizMochila[i - 1][j];
                 } else {
-                    matrizMochila[i][v] = Math.min(matrizMochila[i - 1][v], this.pesos[i - 1] + matrizMochila[i - 1][Math.max(0, v - this.valores[i - 1])]);
+                    matrizMochila[i][j] = Math.min(matrizMochila[i - 1][j], this.pesos[i - 1] + matrizMochila[i - 1][Math.max(0, j - this.valores[i - 1])]);
                 }
             }
         }
@@ -103,13 +104,13 @@ public class Mochila {
             this.pesoResultante = matrizMochila[this.cantItems][v];
             res = v;
             v++;
-
         }
+
         return res;
     }
 
     public void mostrarDatos() {
-        System.out.println("\nOptimo nuestro: " + matrizMochila[cantItems][capacidadMochila]);
+        System.out.println("\nOptimo nuestro: " + valorResultante);
 
         int i = cantItems;
         int j = capacidadMochila;
@@ -125,12 +126,10 @@ public class Mochila {
             // si la fila anterior cambia quiere decir que hubo un incrmento
             // y que el elemento i fue ingresado en la mochila
             if (matrizMochila[i][j] != matrizMochila[i - 1][j]) {
+
                 itemsCargados++;
-
                 valorAcumulado += valores[i];
-
                 pesoAcumulado += pesos[i];
-
                 j = j - pesos[i];
 
                 System.out.println("Item : " + i + " valor: " + valores[i] + "  peso: " + pesos[i]);

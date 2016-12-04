@@ -42,7 +42,7 @@ Para la resolución de este problema se propone la utilización del Algoritmo de
 
 \bigskip
 
-\textcolor[rgb]{0.4,0.4,0.4}{}\textcolor{black}{FloydWarshall() \{ }
+\textbf{\textcolor[rgb]{0.4,0.4,0.4}{}\textcolor{black}{FloydWarshall() }} \{
 
 \quad Armar la matriz de adyacencia F
 
@@ -109,16 +109,24 @@ Consideramos un conjunto de enteros \( S = \{ a_{1}, . . . , a_{n} \}  \). Const
 
 Por lo tanto, el problema es al menos tan difícil como el de suma de subconjuntos. Dado que éste es un problema NP-Completo, el problema de los ciclos de peso 0 también lo es.
 
-\subsection{Tareas con ganancia mayor a un k dado}
+\subsection{Tareas con ganancia mayor a un \(k\) dado}
 
-\subsection{Tareas con ganancia igual a un k dado}
+\subsection{Tareas con ganancia igual a un \(k\) dado}
 
+Utilizamos otra vez el problema de la suma de subconjuntos. Podemos reducir este problema a un subconjunto del mismo, pero en este caso la suma es el \(k\) dado.
+
+Por lo tanto, podemos decir que el problmea es NP-Completo.
+
+Supongamos que
+
+\[ sumaDeSubconjutos \le_{p} programacionConDeadlinesYGanancias \]
+
+Partiendo de esto, vemos que dada una instancia del problema de suma de subconjutos \(X = (x[1..n], t)\); donde, \(x[i]\) es el conjunto de números y \(t\) es el resultado de la suma del subconjunto, es posible construir en tiempo polinomial una instancia de nuestro problema de programación con deadlines y ganancias de la siguiente manera: 
+\[ Y = ( x[1..n], d[1..n], x[1..n], t ), \forall i \in d[i] = t \]
+
+Otra vez, dado que el problema de suma de subconjuntos es NP-Completo, y el problema de programación con deadlines y ganancias mayores a un \(k\) dado es al menos tan difícil como este, queda demostrado que es un problema NP-Completa.
 
 \section{Algoritmos de aproximación}
-
-
-\subsection{El problema de la mochila}
-
 
 \subsection{El problema del viajante de comercio}
 
@@ -145,6 +153,12 @@ Cantidad de ciudades	& Tiempo de ejecución (segundos)\\\hline
 \caption{Tiempo en función de la cantidad de ciudades para la aproximación por el árbol de tendido mínimo}
 \label{tab:held}
 \end{table}
+
+\subsection{El problema de la mochila}
+
+Se refactorizó el algoritmo utilizado en la primera parte, agregando la ecuación de recurrencia indicada en el enunciado.
+
+A continuación se muestra una tabla comparativa de los tiempos de ejecución entre la versión actual y la del tp anterior.
 
 
 \end{document}
