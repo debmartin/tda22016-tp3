@@ -111,6 +111,7 @@ public class Mochila {
 
     public void mostrarDatos() {
         System.out.println("\nOptimo nuestro: " + valorResultante);
+        System.out.println("\nPeso nuestro: " + pesoResultante);
 
         int i = cantItems;
         int j = capacidadMochila;
