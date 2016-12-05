@@ -175,7 +175,9 @@ Cantidad de ciudades	& Tiempo de ejecución (seg)\\\hline
 
 \subsection{El problema de la mochila}
 
-Se refactorizó el algoritmo utilizado en la primera parte, agregando la ecuación de recurrencia indicada en el enunciado. El algoritmo tiene la lógica explicada en el enunciado. Las mejoras consisten en aplicar otra ecuación de  recurrencia para evaluar los pesos, esto es
+Se refactorizó el algoritmo utilizado en la primera parte, agregando la ecuación de recurrencia indicada en el enunciado. El algoritmo la ecuación de recurrencia indicada en el enunciado.
+
+Este algoritmo se ejecuta en $O(n * sumaValores)$ siendo n el numero de elementos a introducir en la mochila, y sumaValores la suma de los valores (no pesos) de todos los objetos. A priori parece peor que el anterior, pero la ventaja de este algoritmo frente al anterior es que permite disminuir la cantidad de valores a calcular, haciendo menos costosa su ejecución.
 
 A continuación se muestra una tabla con los tiempos de ejecución del algoritmo con algunos de los archivos de prueba.
 

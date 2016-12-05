@@ -1,0 +1,25 @@
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+*.iml
+*.ipr
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+/tda22016-tp1/nbproject/private/
+/tda22016-tp1/nbproject/
+/tda22016-tp1/build/
+/tda22016-tp1/dist/
+.idea/
+out/
+.idea/
+doc/*.swp
+
+
