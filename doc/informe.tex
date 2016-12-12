@@ -55,43 +55,52 @@ Eisner, Ariel, \textit{Padrón Nro. 90697} \\
 
 
 \subsection{Ciclos con peso negativo en un grafo Hamiltoniano}
-Para la resolución de este problema se propone la utilización del Algoritmo de Floyd Warshall para encontrar el camino mínimo entre todos los vértices del grafo. Sobre la matriz resultante se analizan los números de la diagonal de la matriz de caminos. En caso de ser negativos, sabemos que pertenece a un ciclo negativo. Este algoritmo corre en tiempo \( O( V^{3}) \), siendo \( V \) la cantidad de vértices del grafo.
+Para la resolución de este problema se propone la utilización del Algoritmo de Bellman-Ford. El mismo se utiliza para encontrar el camino más corto entre un vértice origen y todos los demás vértices.
+
+El Algoritmo de Bellman-Ford es, en su estructura básica, muy parecido al algoritmo de Dijkstra, pero en vez de seleccionar vorazmente el nodo de peso mínimo aun sin procesar para relajarlo, simplemente relaja todas las aristas, y lo hace \(|V|-1\) veces, siendo \(|V|\) el número de vértices en el grafo. Las repeticiones permiten a las distancias mínimas recorrer el árbol, ya que en la ausencia de ciclos negativos, el camino más corto solo visita cada vértice una vez. A diferencia de la solución voraz, la cual depende de la suposición de que los pesos sean positivos, esta solución se aproxima más al caso general.
+
+Tiene una complejidad de tiempo de \(O(V*A)\), donde \(V\) es el número de vértices y \(A\) el número de aristas.
 
 \bigskip
 
-\textbf{\textcolor[rgb]{0.4,0.4,0.4}{}\textcolor{black}{FloydWarshall() }} \{
+bool BellmanFord( Grafo G, nodo\_origen s )
 
-\quad Armar la matriz de adyacencia F
+\quad      // inicializamos el grafo. Ponemos distancias a INFINITO menos el nodo origen que tiene distancia 0
 
-\quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( k from 1 to n )}
-
-\quad \quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( i from 1 to n )}
-
-\quad \quad \quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( j from 1 to n )}
-
-\quad \quad \quad \quad F[i,j]=min(F[i,j], F[i,k] + F[k,j])
-
-\quad \quad \quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for j}}
-
-\quad \quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for i}}
-
-\quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for k}}
-
+\quad       for v \(\in\) V[G] do
+           
+\quad \quad           distancia[v]=INFINITO
+           
+\quad\quad           predecesor[v]=NIL
+       
+\quad       distancia[s]=0
+      
 \bigskip
+\quad       // relajamos cada arista del grafo tantas veces como número de nodos -1 haya en el grafo
+       
+\quad for i=1 to \(|\)V[G]\(|\) - 1 do
+       
+\quad\quad for (u, v) \(\in\)  E[G] do
+       
+\quad\quad\quad if distancia[v] \(>\) distancia[u] + peso(u, v) then
+       
+\quad\quad\quad\quad distancia[v] = distancia[u] + peso (u, v)
+       
+\quad\quad\quad\quad predecesor[v] = u
 
-\quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for}}\textcolor{black}{ ( i from 1 to n )}
+\bigskip       
+\quad // comprobamos si hay ciclos negativo
+       
+\quad for (u, v) \(\in\) E[G] do
+       
+\quad\quad if distancia[v] \(>\) distancia[u] + peso(u, v) then
+       
+\quad\quad\quad print ("Hay ciclo negativo")
+       
+\quad\quad\quad return FALSE
 
-\quad \quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{if}}\textcolor{black}{ ( F[i,i] < 0 then )}
-	
-\quad \quad \quad print “Ciclo negativo”
-		
-\quad \quad \quad break
-		
-\quad \quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end if}}
-	
-\quad \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{end for i}}
-
-\}
+\bigskip       
+\quad return TRUE
 
 
 \subsection{Ciclos de peso nulo en un grafo Hamiltoniano}
