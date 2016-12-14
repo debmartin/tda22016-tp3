@@ -37,7 +37,7 @@ public class Main {
         Viajante viajante = new Viajante(ciudades);
         int costo = viajante.obtenerCostoCamino();
         Deque<Integer> camino = viajante.obtenerCamino();
-        System.out.println("Tamanio: " + tamanio + ", Costo: " + costo + ", Camino:");
+        System.out.println("Tamanio: " + tamanio + ", Camino:");
         System.out.println(camino);    
     }
     
