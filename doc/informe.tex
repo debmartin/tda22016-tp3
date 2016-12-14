@@ -61,6 +61,8 @@ El Algoritmo de Bellman-Ford es, en su estructura básica, muy parecido al algor
 
 Tiene una complejidad de tiempo de \(O(V*A)\), donde \(V\) es el número de vértices y \(A\) el número de aristas.
 
+A continuación mostramos un pseudocódigo del mismo.
+
 \bigskip
 
 bool BellmanFord( Grafo G, nodo\_origen s )
@@ -137,9 +139,7 @@ Por lo tanto, el problema es al menos tan difícil como el de suma de subconjunt
 
 \subsection{Tareas con ganancia igual a un \(k\) dado}
 
-Utilizamos otra vez el problema de la suma de subconjuntos. Podemos reducir este problema a un subconjunto del mismo, pero en este caso la suma es el \(k\) dado.
-
-Por lo tanto, podemos decir que el problmea es NP-Completo.
+Este es un problema NP-Hard, ya que puede tener que verificar todas las combinaciones posibles, pero al no ser un problema de decisión (no necesitamos determinar si un valor cumple con una condición respecto a todos los demas valores del conjunto), tenemos que no es NP-Completo.
 
 Supongamos que
 
