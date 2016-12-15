@@ -67,18 +67,18 @@ A continuación mostramos un pseudocódigo del mismo.
 
 bool BellmanFord( Grafo G, nodo\_origen s )
 
-\quad      // inicializamos el grafo. Ponemos distancias a INFINITO menos el nodo origen que tiene distancia 0
+\quad // inicializamos el grafo. Ponemos distancias a INFINITO menos el nodo origen que tiene distancia 0
 
-\quad       for v \(\in\) V[G] do
+\quad for v \(\in\) V[G] do
            
-\quad \quad           distancia[v]=INFINITO
+\quad \quad distancia[v]=INFINITO
            
-\quad\quad           predecesor[v]=NIL
+\quad\quad  predecesor[v]=NIL
        
-\quad       distancia[s]=0
+\quad distancia[s]=0
       
 \bigskip
-\quad       // relajamos cada arista del grafo tantas veces como número de nodos -1 haya en el grafo
+\quad // relajamos cada arista del grafo tantas veces como número de nodos -1 haya en el grafo
        
 \quad for i=1 to \(|\)V[G]\(|\) - 1 do
        
@@ -139,16 +139,15 @@ Por lo tanto, el problema es al menos tan difícil como el de suma de subconjunt
 
 \subsection{Tareas con ganancia igual a un \(k\) dado}
 
-Este es un problema NP-Hard, ya que puede tener que verificar todas las combinaciones posibles, pero al no ser un problema de decisión (no necesitamos determinar si un valor cumple con una condición respecto a todos los demas valores del conjunto), tenemos que no es NP-Completo.
+Estamos ante un problema de Programación con deadlines, beneficios y duraciones (\(PDBD\)). Es un problema NP-Completo. Para probarlo, veremos que el tamaño de la resolución es mayor a otro problema NP-Completo, conocido como suma de subconjuntos (\(SDS\)).
 
-Supongamos que
+El problema \(SDS\) tiene como entrada un vector \(x = (a_{1}, a_{2},..., a_{m}, t)\) donde \(t\) y todos los \(a_{i}\) son enteros no negativos en formato binario.
 
-\[ sumaDeSubconjutos \le_{p} programacionConDeadlinesYGanancias \]
+Queremos ver que \(SDS \le_{p} PDBD\).
 
-Partiendo de esto, vemos que dada una instancia del problema de suma de subconjutos \(X = (x[1..n], t)\); donde, \(x[i]\) es el conjunto de números y \(t\) es el resultado de la suma del subconjunto, es posible construir en tiempo polinomial una instancia de nuestro problema de programación con deadlines y ganancias de la siguiente manera: 
-\[ Y = ( x[1..n], d[1..n], x[1..n], t ), \forall i \in d[i] = t \]
+Para probar esto, sea \(x\) un input del problema de \( PDBD, x = (( d_{1}, g_{1}, t_{1}),...,(d_{m}, g_{m}, t_{m}), t)) \), con todos los valores enteros no negativos en formato binario, y sea \(f(x) =  (( d_{1}, g_{1}, t_{1}),...,(d_{m}, g_{m}, t_{m}), t, t)) \). Supongamos que \(x\) es una instancia de \(SDS\), por otra parte podemos dejar que \(f(x)\) sea una cadena fuera de \(PDBD\).
 
-Otra vez, dado que el problema de suma de subconjuntos es NP-Completo, y el problema de programación con deadlines y ganancias mayores a un \(k\) dado es al menos tan difícil como este, queda demostrado que es un problema NP-Completa.
+Es claro que \(f\) es computable en tiempo polinomial, y \( x \in SDS \Leftrightarrow f(x) \in PDBD\).
 
 \subsection{Tareas con ganancia mayor a un \(k\) dado}
 
