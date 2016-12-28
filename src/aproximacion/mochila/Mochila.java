@@ -30,115 +30,76 @@ public class Mochila {
         try {
             FileReader fr = new FileReader(rutaArchivo);
             lectorArchivo = new BufferedReader(fr);
+
+            try {
+                lectorArchivo.readLine();//salteo titulo del archivo
+                cantItems = Integer.parseInt(lectorArchivo.readLine().split(" ")[1]);
+                capacidadMochila = Integer.parseInt(lectorArchivo.readLine().split(" ")[1]);
+                lectorArchivo.readLine(); //salteo optimo de pissinger
+                lectorArchivo.readLine(); //salteo tiempo
+            } catch (IOException e) {
+                cantItems = 0;
+                capacidadMochila = 0;
+                e.printStackTrace();
+            }
+
+            valores = new int[cantItems + 1];
+            pesos = new int[cantItems + 1];
+
+            //leo todos los valores
+            for (int i = 1; i <= cantItems; i++) {
+                String[] linea = null;
+                try {
+                    linea = lectorArchivo.readLine().split(",");
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                valores[i] = Integer.parseInt(linea[1]);
+                pesos[i] = Integer.parseInt(linea[2]);
+            }
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        cantItems = 0;
-        capacidadMochila = 0;
-
-        cargarDatosDesdeArchivo();
-        valorResultante = cargarMochila();
-
-    }
-
-    public void cargarDatosDesdeArchivo() {
-        try {
-            lectorArchivo.readLine();//salteo titulo del archivo
-            cantItems = Integer.parseInt(lectorArchivo.readLine().split(" ")[1]);
-            capacidadMochila = Integer.parseInt(lectorArchivo.readLine().split(" ")[1]);
-            System.out.println("Optimo Pisinger: " + lectorArchivo.readLine()); //salteo optimo
-            lectorArchivo.readLine(); //salteo tiempo
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        valores = new int[cantItems + 1];
-        pesos = new int[cantItems + 1];
-        matrizMochila = new int[cantItems + 1][capacidadMochila + 1];
-
-        //leo todos los valores
-        for (int i = 1; i <= cantItems; i++) {
-            String[] linea = null;
-            try {
-                linea = lectorArchivo.readLine().split(",");
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            valores[i] = Integer.parseInt(linea[1]);
-            pesos[i] = Integer.parseInt(linea[2]);
-        }
-
     }
 
     public int cargarMochila() {
-        int sumaTotal = 0;
+        int totalValueSum = 0;
+        for (int i = 0; i < this.cantItems; i++)
+            totalValueSum += this.valores[i];
 
-        for (int i = 0; i < this.cantItems; i++) {
-            sumaTotal += this.valores[i];
+        int[][] matrizPesos = new int[this.cantItems + 1][totalValueSum + 1];
+
+        for (int i = 0; i <= this.cantItems; i++){
+            matrizPesos[i][0] = 0;
         }
 
-        matrizMochila = new int[this.cantItems + 1][sumaTotal + 1];
-        for (int i = 0; i <= this.cantItems; i++) {
-            matrizMochila[i][0] = 0;
-        }
+        int partialValueSum = 0;
+        for (int i = 1; i <= this.cantItems; i++){
+            partialValueSum += this.valores[i - 1];
+            for (int v = 1; v <= totalValueSum; v++){
 
-        int sumaParcial = 0;
-        for (int i = 1; i <= this.cantItems; i++) {
-            sumaParcial += this.valores[i - 1];
-            for (int j = 1; j <= sumaTotal; j++) {
-                if (j > sumaParcial - this.valores[i - 1]) {
-                    matrizMochila[i][j] = this.pesos[i - 1] + matrizMochila[i - 1][j];
-                } else {
-                    matrizMochila[i][j] = Math.min(matrizMochila[i - 1][j], this.pesos[i - 1] + matrizMochila[i - 1][Math.max(0, j - this.valores[i - 1])]);
-                }
+                //System.out.println("i : "+i+" - v : "+v);
+
+                if (v > partialValueSum - this.valores[i - 1])
+                    matrizPesos[i][v] = this.pesos[i - 1] + matrizPesos[i - 1][v];
+                else
+                    matrizPesos[i][v] = Math.min(matrizPesos[i - 1][v], this.pesos[i - 1] + matrizPesos[i  - 1][Math.max(0, v - this.valores[i - 1])]);
             }
         }
 
-        int res = 0;
+        // calculo y retorno el valor obtenido
+        int mejorValorPosible = 0;
         int v = 1;
-
-        while (v <= sumaTotal && matrizMochila[this.cantItems][v] <= this.capacidadMochila) {
-            this.pesoResultante = matrizMochila[this.cantItems][v];
-            res = v;
+        while (v <= totalValueSum && matrizPesos[this.cantItems][v] <= this.capacidadMochila){
+            this.pesoResultante = matrizPesos[this.cantItems][v];
+            mejorValorPosible = v;
             v++;
         }
 
-        return res;
-    }
-
-    public void mostrarDatos() {
-        System.out.println("\nOptimo nuestro: " + valorResultante);
-        System.out.println("\nPeso nuestro: " + pesoResultante);
-
-        int i = cantItems;
-        int j = capacidadMochila;
-        int itemsCargados = 0;
-        int pesoAcumulado = 0;
-        int valorAcumulado = 0;
-
-        System.out.println("\nItems cargados\n");
-
-        //antes de q recorra todas las filas o el peso se hace cero
-        while (i > 0 && j > 0) {
-            //arranco desde la ultima fila y columna y voy retrocediendo
-            // si la fila anterior cambia quiere decir que hubo un incrmento
-            // y que el elemento i fue ingresado en la mochila
-            if (matrizMochila[i][j] != matrizMochila[i - 1][j]) {
-
-                itemsCargados++;
-                valorAcumulado += valores[i];
-                pesoAcumulado += pesos[i];
-                j = j - pesos[i];
-
-                System.out.println("Item : " + i + " valor: " + valores[i] + "  peso: " + pesos[i]);
-            }
-            i--;
-        }
-
-        System.out.println("\nItems en Total: " + itemsCargados + " valorTotal: " + valorAcumulado + "  pesoTotal: " + pesoAcumulado);
+        return mejorValorPosible;
     }
 
 }

@@ -4,18 +4,22 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String archivo = "/home/esteban/Proyectos/tda22016-tp3/src/aproximacion/mochila/hardinstances_pisinger/knapPI_16_500_1000.csv";
+        String templateArchivo = "/home/esteban/Repositorios/tda22016-tp3/src/aproximacion/mochila/hardinstances_pisinger/knapPI_NROARCH_500_1000.csv";
+        String archivo;
 
-        double time = System.nanoTime();
+        for (int i = 11; i < 17; i++) {
 
-        Mochila m = new Mochila(archivo);
+            archivo = templateArchivo.replace("NROARCH", String.valueOf(i));
 
-        double executeTime = (System.nanoTime() - time) * Math.pow(10, -9);
+            Mochila m = new Mochila(archivo);
 
-        System.out.println("Archivo: " + archivo + " -> Tiempo: " + String.valueOf(executeTime));
+            double time = System.nanoTime();
 
-        //m.cargarDatosDesdeArchivo();
-        //m.cargarMochila();
-        m.mostrarDatos();
+            int valorResultante = m.cargarMochila();
+
+            double executeTime = (System.nanoTime() - time) * Math.pow(10, -9);
+
+            System.out.println("Archivo: " + archivo + " -> Tiempo: " + String.valueOf(executeTime) + ", Valor resultante: " + valorResultante);
+        }
     }
 }
