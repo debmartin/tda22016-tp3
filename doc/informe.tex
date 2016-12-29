@@ -73,7 +73,7 @@ bool BellmanFord( Grafo G, nodo\_origen s )
            
 \quad \quad distancia[v]=INFINITO
            
-\quad\quad  predecesor[v]=NIL
+\quad\quad  predecesor[v]=NULL
        
 \quad distancia[s]=0
       
@@ -119,19 +119,19 @@ Consideramos un conjunto de enteros \( S = \{ a_{1}, . . . , a_{n} \}  \). Const
 
 \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for each }}\( v_{i} \)
 
-\quad agregar una arista de \( v_{i} \) en \( u_{i} \) con peso \( a_{i} \) y agregar aristas de cada vértice \( v_{j} \) en él con peso 0.
+\quad agregar una arista (\( v_{i} \) , \( u_{i} \)) con peso \( a_{i} \) y agregar aristas (\( v_{i} \) , \( u_{j} \)) con peso 0, \( \forall i,j, i \neq j\).
 
 \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{for each}} \( u_{i} \)
 
-\quad agregar aristas de éste vértice \( u_{i} \) a cada uno de los \( v_{j} \) con peso 0. 
+\quad agregar aristas (\( u_{i} \) , \( v_{j} \)) con peso 0, \( \forall i,j, i \neq j\). 
 
 \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{if}} (encontramos un ciclo de peso 0 en G) \textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{then}}
 
 \quad todos los pesos desde \( v_{j} \) hasta \( u_{j} \) a lo largo del ciclo deben ser cero.
 		
-\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{if}} (obtenemos un subconjunto \( S0 \subseteq S \) cuya sumatoria da 0)
+\textbf{\textcolor[rgb]{0.0,0.5019608,0.0}{if}} (obtenemos un subconjunto \( S_{0} \subseteq S \) cuya sumatoria da 0)
 
-\quad construimos un ciclo tomando todas las aristas \( (v_{j}, u_{j}) \) correspondientes al elemento en S0 y conectamos sus aristas a través de las aristas de ppeso cero, y finalmente obtenemos un ciclo de peso 0.
+\quad construimos un ciclo tomando todas las aristas \( (v_{j}, u_{j}) \) correspondientes al elemento en \( S_{0}\) y conectamos sus aristas a través de las aristas de peso cero en G, y finalmente obtenemos un ciclo de peso 0.
 
 \bigskip
 

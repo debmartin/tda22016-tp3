@@ -13,7 +13,10 @@ public class Mochila {
     private int cantItems;
     private int[] valores;
     private int[] pesos;
-    private int[][] matrizMochila;
+    private int[][] matrizPesos;
+
+    int totalValueSum = 0;
+    int partialValueSum = 0;
 
     public int valorResultante;
     public int pesoResultante;
@@ -23,7 +26,7 @@ public class Mochila {
         this.capacidadMochila = capacidadMochila;
         this.valores = valores;
         this.pesos = pesos;
-        this.valorResultante = cargarMochila();
+        //this.valorResultante = cargarMochila();
     }
 
     public Mochila(String rutaArchivo) {
@@ -65,18 +68,17 @@ public class Mochila {
         }
     }
 
-    public int cargarMochila() {
-        int totalValueSum = 0;
+    public void cargarMochila() {
+
         for (int i = 0; i < this.cantItems; i++)
             totalValueSum += this.valores[i];
 
-        int[][] matrizPesos = new int[this.cantItems + 1][totalValueSum + 1];
+        matrizPesos = new int[this.cantItems + 1][totalValueSum + 1];
 
         for (int i = 0; i <= this.cantItems; i++){
             matrizPesos[i][0] = 0;
         }
 
-        int partialValueSum = 0;
         for (int i = 1; i <= this.cantItems; i++){
             partialValueSum += this.valores[i - 1];
             for (int v = 1; v <= totalValueSum; v++){
@@ -89,7 +91,9 @@ public class Mochila {
                     matrizPesos[i][v] = Math.min(matrizPesos[i - 1][v], this.pesos[i - 1] + matrizPesos[i  - 1][Math.max(0, v - this.valores[i - 1])]);
             }
         }
+    }
 
+    public int obtenerResultado() {
         // calculo y retorno el valor obtenido
         int mejorValorPosible = 0;
         int v = 1;

@@ -15,9 +15,11 @@ public class Main {
 
             double time = System.nanoTime();
 
-            int valorResultante = m.cargarMochila();
+            m.cargarMochila();
 
             double executeTime = (System.nanoTime() - time) * Math.pow(10, -9);
+
+            int valorResultante = m.obtenerResultado();
 
             System.out.println("Archivo: " + archivo + " -> Tiempo: " + String.valueOf(executeTime) + ", Valor resultante: " + valorResultante);
         }
