@@ -222,9 +222,9 @@ Como se puede apreciar, la aproximación no devuelve el mejor camino, ya que el 
 
 \subsection{El problema de la mochila}
 
-Se refactorizó el algoritmo utilizado en la primera parte, agregando la ecuación de recurrencia indicada en el enunciado. El algoritmo la ecuación de recurrencia indicada en el enunciado.
+Se implementó el algoritmo propuesto en el enunciado.
 
-Este algoritmo se ejecuta en $O(n * sumaValores)$ siendo n el numero de elementos a introducir en la mochila, y sumaValores la suma de los valores (no pesos) de todos los objetos. A priori parece peor que el anterior, pero la ventaja de este algoritmo frente al anterior es que permite disminuir la cantidad de valores a calcular, haciendo menos costosa su ejecución.
+Este algoritmo se ejecuta en $O(n^2 * sumaValores)$ siendo n el numero de elementos a introducir en la mochila, y sumaValores la suma de los valores (no pesos) de todos los objetos.
 
 A continuación se muestra una tabla con los tiempos de ejecución del algoritmo con algunos de los archivos de prueba.
 
@@ -244,8 +244,9 @@ knapPI\_16\_500\_1000	& $1.001233293$ & $0.013271072$ \\\hline
 \label{tab:held}
 \end{table}
 
-Para todos los casos, el óptimo encontrado fue el óptimo de Pissinger.
 
-El problema que encontramos con la implementación de la versión con aproximación fue que para instancias más grandes no era posible llevar a cabo las pruebas con la máquina con la que disponíamos.
+El problema que encontramos con la implementación de la versión con aproximación fue que para instancias más grandes de Pissinger no era posible llevar a cabo las pruebas con la máquina con la que disponíamos.
+
+
 
 \end{document}
