@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String templateArchivo = "/home/esteban/Repositorios/tda22016-tp3/src/aproximacion/mochila/hardinstances_pisinger/knapPI_NROARCH_500_1000.csv";
+        String templateArchivo = "/home/esteban/Repositorios/otros/tda22016-tp3/src/aproximacion/mochila/hardinstances_pisinger/knapPI_NROARCH_500_1000.csv";
         String archivo;
 
         for (int i = 11; i < 17; i++) {
@@ -15,7 +15,7 @@ public class Main {
 
             double time = System.nanoTime();
 
-            m.cargarMochila();
+            m.cargarMochila(2);
 
             double executeTime = (System.nanoTime() - time) * Math.pow(10, -9);
 

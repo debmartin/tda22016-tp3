@@ -68,37 +68,59 @@ public class Mochila {
         }
     }
 
+    public void cargarMochila(double epsilon){
+        normalizar(epsilon);
+        cargarMochila();
+    }
+
+    private void normalizar(double epsilon){
+        int maxValor = 0;
+        for (int valor : valores){
+            if (maxValor < valor){
+                maxValor = valor;
+            }
+        }
+
+        double factorDeEscalado = epsilon / cantItems * maxValor;
+
+        for (int i = 0; i < cantItems; i++){
+            valores[i] = (int) Math.ceil(valores[i] / factorDeEscalado);
+        }
+    }
+
     public void cargarMochila() {
 
-        for (int i = 0; i < this.cantItems; i++)
-            totalValueSum += this.valores[i];
+        for (int i = 0; i < cantItems; i++) {
+            totalValueSum += valores[i];
+        }
 
-        matrizPesos = new int[this.cantItems + 1][totalValueSum + 1];
+        matrizPesos = new int[cantItems + 1][totalValueSum + 1];
 
-        for (int i = 0; i <= this.cantItems; i++){
+        for (int i = 0; i <= cantItems; i++){
             matrizPesos[i][0] = 0;
         }
 
-        for (int i = 1; i <= this.cantItems; i++){
-            partialValueSum += this.valores[i - 1];
+        for (int i = 1; i <= cantItems; i++){
+            partialValueSum += valores[i - 1];
             for (int v = 1; v <= totalValueSum; v++){
 
                 //System.out.println("i : "+i+" - v : "+v);
 
-                if (v > partialValueSum - this.valores[i - 1])
-                    matrizPesos[i][v] = this.pesos[i - 1] + matrizPesos[i - 1][v];
+                if (v > partialValueSum - valores[i - 1])
+                    matrizPesos[i][v] = pesos[i - 1] + matrizPesos[i - 1][v];
                 else
-                    matrizPesos[i][v] = Math.min(matrizPesos[i - 1][v], this.pesos[i - 1] + matrizPesos[i  - 1][Math.max(0, v - this.valores[i - 1])]);
+                    matrizPesos[i][v] = Math.min(matrizPesos[i - 1][v], pesos[i - 1] + matrizPesos[i  - 1][Math.max(0, v - valores[i - 1])]);
             }
         }
     }
 
     public int obtenerResultado() {
-        // calculo y retorno el valor obtenido
+
         int mejorValorPosible = 0;
         int v = 1;
-        while (v <= totalValueSum && matrizPesos[this.cantItems][v] <= this.capacidadMochila){
-            this.pesoResultante = matrizPesos[this.cantItems][v];
+
+        while (v <= totalValueSum && matrizPesos[cantItems][v] <= capacidadMochila){
+            pesoResultante = matrizPesos[cantItems][v];
             mejorValorPosible = v;
             v++;
         }
