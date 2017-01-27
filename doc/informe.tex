@@ -226,7 +226,7 @@ Se implementó el algoritmo propuesto en el enunciado.
 
 Este algoritmo se ejecuta en $O(n^2 * sumaValores)$ siendo n el numero de elementos a introducir en la mochila, y sumaValores la suma de los valores (no pesos) de todos los objetos.
 
-A continuación se muestra una tabla con los tiempos de ejecución del algoritmo con algunos de los archivos de prueba.
+A continuación se muestra una tabla con los tiempos de ejecución del algoritmo con algunos de los archivos de prueba, sin utilizar un factor de normalización. Como vemos, el algoritmo tarda bastante más que la solución anterior, pero calcula el valor óptimo (omitimos mostrarlo).
 
 \begin{table}[H]
 \centering
@@ -244,9 +244,35 @@ knapPI\_16\_500\_1000	& $1.001233293$ & $0.013271072$ \\\hline
 \label{tab:held}
 \end{table}
 
+Ahora mostramos los resultados, tanto en tiempo de ejecución como en valor resultante hallado, aplicando distintos factores de normalización. Dicho factor se aplica de la siguiente manera:
 
-El problema que encontramos con la implementación de la versión con aproximación fue que para instancias más grandes de Pissinger no era posible llevar a cabo las pruebas con la máquina con la que disponíamos.
+$u_i = \lceil v_i / factorNormalizacion \rceil $ 
 
+siendo su factor normalización 
 
+$factorNormalizacion = ( epsilon / n) * max_i v_i$ 
+
+Cada $u_i$ corresponde a cada uno de los valores a cargar normalizado.
+
+Por lo tanto, el algoritmo utilizado calculando óptimo de la mochila con este factor es del orden $O(n^3 * sumaValores)$, ya que tiene que recorrer todos los valores y aplicarles dicho factor.
+
+A continuación la tabla comparativa de tiempos y valores hallados, respecto del óptimo, para distintos valores de $epsilon$.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+epsilon					& 0.1  & 0.5 & 0.9 & \\\hline
+Archivo de prueba	& t (seg) / val & t (seg) / val & t (seg) / val & Valor óptimo\\\hline
+knapPI\_11\_500\_1000	& $3.175835430$ / $17000$ & $0.735377199$ / $3400$ & $0.426913432$ / $1904 $ & 3468 \\\hline 
+knapPI\_12\_500\_1000	& $3.327861014$ / $11500$ & $0.850884103$ / $2300$ & $0.449287974$ / $1288 $ & 2231 \\\hline 
+knapPI\_13\_500\_1000	& $2.508101185$ / $13692$ & $0.477538811$ / $2761$ & $0.362973003$ / $1555 $ & 3198 \\\hline 
+knapPI\_14\_500\_1000	& $3.838261431$ / $50123$ & $0.797174056$ / $10042$ & $0.495847542$ / $5592 $ & 12746 \\\hline 
+knapPI\_15\_500\_1000	& $3.384585335$ / $12583$ & $0.692684757$ / $2551$ & $0.431822064$ / $1425 $ & 2508 \\\hline 
+knapPI\_16\_500\_1000	& $ --- $                 & $0.917216243$ / $11425$ & $0.35268085$ / $6358 $ & 13145 \\\hline 
+\end{tabular}
+\caption{Tiempo y valor obtenido en función del epsilon, la cantidad de paquetes y el tamaño de la mochila}
+\label{tab:held}
+\end{table}
 
 \end{document}
